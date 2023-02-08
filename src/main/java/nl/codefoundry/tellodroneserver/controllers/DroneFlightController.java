@@ -71,10 +71,4 @@ public class DroneFlightController {
         this.droneFlightService.turn(TurnDirection.RIGHT, degrees);
     }
 
-    @Get("balloons")
-    public void balloons() {
-        this.droneFlightService.takeoff();
-        this.droneFlightService.move(MovementDirection.UP, 160);
-        this.droneFlightService.land();
-    }
 }

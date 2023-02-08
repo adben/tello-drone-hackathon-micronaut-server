@@ -92,6 +92,12 @@
             <artifactId>tello4j</artifactId>
             <version>1.0.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.openpnp</groupId>
+            <artifactId>opencv</artifactId>
+            <version>3.4.2-0</version>
+        </dependency>
     </dependencies>
 
     <build>
