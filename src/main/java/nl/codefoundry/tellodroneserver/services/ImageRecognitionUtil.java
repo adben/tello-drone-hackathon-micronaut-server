@@ -29,11 +29,6 @@ public class ImageRecognitionUtil {
             int g = (pixels[i]>>8)      &0xFF; //green
             int b = (pixels[i]>>0)      &0xFF; //blue
 
-            // blue ~ 80 | 120 | 170
-            // red ~ 140 | 60 | 50
-            // green ~ 100 | 130 | 65
-            // yellow ~ 150 | 150 | 30
-
             switch(color) {
                 case RED: {
                     if (r < 100 || g > 80 || b > 70) {
@@ -42,19 +37,19 @@ public class ImageRecognitionUtil {
                     break;
                 }
                 case YELLOW: {
-                    if (r < 130 || g < 130 || b > 80 || Math.abs(r - g) > 10) {
+                    if (r < 130 || g < 130 || b > 80) {
                         pixels[i] = 0xFF000000; //Set to black
                     }
                     break;
                 }
-                case GREEN: { // works
-                    if (r < 80 || g < 100 || b > 80 || Math.abs(r - g) < 10) {
+                case GREEN: {
+                    if (r < 80 || g < 100 || b > 80 || r > g) {
                         pixels[i] = 0xFF000000; //Set to black
                     }
                     break;
                 }
-                case BLUE: { // works
-                    if (r > 100 || (g < 100 && g > 150) || b < 150) {
+                case BLUE: {
+                    if (r > 100 || g < 100 || g > 150 || b < 130) {
                         pixels[i] = 0xFF000000; //Set to black
                     }
                     break;
