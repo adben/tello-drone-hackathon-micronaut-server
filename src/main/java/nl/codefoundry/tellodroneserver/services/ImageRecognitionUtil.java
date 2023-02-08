@@ -33,7 +33,10 @@ public class ImageRecognitionUtil {
             intensity = intensity + r + g + b;
         }
 
-        return intensity > 1 * width * height;
+        boolean isBalloonInImage = intensity > 0.1 * width * height;
+        LOG.info("is Balloon in image: " + isBalloonInImage);
+
+        return isBalloonInImage;
     }
     
     public static BufferedImage removeAllButCollor(BufferedImage image) {
@@ -41,11 +44,11 @@ public class ImageRecognitionUtil {
         removeAllButColor(image, TRACK_COLOR);
         // LOG.info("detected balloon in {} ns", System.nanoTime() - start);
 
-        // new Thread(){
-        //     public void run() {
-        //         System.out.println("is balloon in image: " + isBalloonInImage(image));
-        //     }
-        // }.start();
+        new Thread(){
+            public void run() {
+                System.out.println("is balloon in image: " + isBalloonInImage(image));
+            }
+        }.start();
 
         return image;
     }

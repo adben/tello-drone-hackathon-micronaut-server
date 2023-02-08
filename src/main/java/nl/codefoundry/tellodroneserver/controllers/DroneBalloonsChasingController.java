@@ -34,8 +34,6 @@ public class DroneBalloonsChasingController {
         try {
             droneFlightService.move(MovementDirection.UP, 120);
             rotateAndFwd();
-            rotateAndFwd();
-            //todo repeat tot klaar
         } catch (Exception e) {
             System.out.println(e);
             this.droneFlightService.emergencyStop();
@@ -46,15 +44,15 @@ public class DroneBalloonsChasingController {
 
     private void rotateAndFwd() {
         IntStream.range(1, 20).forEachOrdered(range -> {
-            droneFlightService.turn(TurnDirection.LEFT, 18);
-            // detect color
+            this.droneVideoService.getLastVideoFrame()
+                .ifPresentOrElse(image -> {
+                    if (ImageRecognitionUtil.isBalloonInImage(image)) {
+                        droneFlightService.move(MovementDirection.FORWARD, 50);
+                        rotateAndFwd();
+                    }
+                }, () -> droneFlightService.turn(TurnDirection.LEFT, 18));
         });
-        this.droneVideoService.getLastVideoFrame()
-            .ifPresent(image -> {
-                if (ImageRecognitionUtil.isBalloonInImage(image)) {
-                    droneFlightService.move(MovementDirection.FORWARD, 50);
-                }
-            });
+        
     }
 
 }
