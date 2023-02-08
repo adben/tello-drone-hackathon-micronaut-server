@@ -74,7 +74,9 @@ public class DroneVideoService {
 
         @Override
         public void onFrameReceived(TelloVideoFrame telloVideoFrame) {
-            setLastVideoFrame(Optional.of(telloVideoFrame.getImage()));
+            BufferedImage image = telloVideoFrame.getImage();
+            BufferedImage modifiedImage = ImageRecognitionUtil.removeAllButCollor(image);
+            setLastVideoFrame(Optional.of(modifiedImage));
         }
 
         public void clearLastVideoFrame() {
@@ -82,8 +84,7 @@ public class DroneVideoService {
         }
 
         public Flowable<Optional<BufferedImage>> getVideoStream() {
-            return videoFrameSubject.toFlowable(BackpressureStrategy.LATEST)
-                .map(bi -> bi.map(ImageRecognitionUtil::detectBalloon));
+            return videoFrameSubject.toFlowable(BackpressureStrategy.LATEST);
         }
 
         public Optional<BufferedImage> getLastVideoFrame() {

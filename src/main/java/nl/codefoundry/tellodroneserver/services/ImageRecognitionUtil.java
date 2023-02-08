@@ -1,17 +1,28 @@
 package nl.codefoundry.tellodroneserver.services;
 
 import java.awt.image.BufferedImage;
+import java.util.stream.IntStream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ImageRecognitionUtil {
+    private static final Logger LOG = LoggerFactory.getLogger(ImageRecognitionUtil.class);
 
     public static Color TRACK_COLOR = Color.RED;
 
     public enum Color {
         RED, YELLOW, GREEN, BLUE
     }
+
+    public static boolean isBalloonInImage(BufferedImage image) {
+        
+    }
     
-    public static BufferedImage detectBalloon(BufferedImage image) {
+    public static BufferedImage removeAllButCollor(BufferedImage image) {
+        long start = System.nanoTime();
         removeAllButColor(image, TRACK_COLOR);
+        LOG.info("detected balloon in {} ns", System.nanoTime() - start);
         return image;
     }
 

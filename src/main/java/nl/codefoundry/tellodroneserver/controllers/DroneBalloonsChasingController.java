@@ -8,6 +8,8 @@ import me.friwi.tello4j.api.world.MovementDirection;
 import me.friwi.tello4j.api.world.TurnDirection;
 import nl.codefoundry.tellodroneserver.services.DroneFlightService;
 import nl.codefoundry.tellodroneserver.services.DroneService;
+import nl.codefoundry.tellodroneserver.services.DroneVideoService;
+import nl.codefoundry.tellodroneserver.services.ImageRecognitionUtil;
 
 import java.util.stream.IntStream;
 
@@ -16,12 +18,14 @@ public class DroneBalloonsChasingController {
 
     private final DroneService droneService;
     private final DroneFlightService droneFlightService;
+    private final DroneVideoService droneVideoService;
 
     @Inject
     public DroneBalloonsChasingController(ResourceLoader resourceLoader, DroneService droneService,
-            DroneFlightService droneFlightService) {
+            DroneFlightService droneFlightService, DroneVideoService droneVideoService) {
         this.droneService = droneService;
         this.droneFlightService = droneFlightService;
+        this.droneVideoService = droneVideoService;
     }
 
     @Get("balloons")
@@ -46,8 +50,12 @@ public class DroneBalloonsChasingController {
             droneFlightService.turn(TurnDirection.LEFT, 18);
             // detect color
         });
-        // if color
-        droneFlightService.move(MovementDirection.FORWARD, 50);
+        this.droneVideoService.getLastVideoFrame()
+            .ifPresent(image -> {
+                if (ImageRecognitionUtil.isBalloonInImage(image)) {
+                    droneFlightService.move(MovementDirection.FORWARD, 50);
+                }
+            });
     }
 
 }
