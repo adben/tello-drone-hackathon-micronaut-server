@@ -13,8 +13,6 @@ import nl.codefoundry.tellodroneserver.services.DroneVideoService;
 import java.io.IOException;
 import java.util.stream.IntStream;
 
-import static java.lang.Thread.sleep;
-
 @Controller("api/drone/chasing")
 public class DroneBalloonsChasingController {
 
