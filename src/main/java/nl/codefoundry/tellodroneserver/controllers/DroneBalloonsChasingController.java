@@ -18,7 +18,8 @@ public class DroneBalloonsChasingController {
     private final DroneFlightService droneFlightService;
 
     @Inject
-    public DroneBalloonsChasingController(ResourceLoader resourceLoader, DroneService droneService, DroneFlightService droneFlightService) {
+    public DroneBalloonsChasingController(ResourceLoader resourceLoader, DroneService droneService,
+            DroneFlightService droneFlightService) {
         this.droneService = droneService;
         this.droneFlightService = droneFlightService;
     }
@@ -28,14 +29,9 @@ public class DroneBalloonsChasingController {
         this.droneService.connect();
         this.droneFlightService.takeoff();
         try {
-            this.droneFlightService.move(MovementDirection.UP, 100);
-            rotate(3);
-            droneFlightService.move(MovementDirection.FORWARD, 100);
-            rotate(4);
-            droneFlightService.move(MovementDirection.FORWARD, 100);
-            rotate(5);
-            droneFlightService.move(MovementDirection.FORWARD, 100);
-
+            rotateAndFwd();
+            rotateAndFwd();
+            //todo repeat tot klaar
         } catch (Exception e) {
             System.out.println(e);
             this.droneFlightService.emergencyStop();
@@ -45,11 +41,13 @@ public class DroneBalloonsChasingController {
         }
     }
 
-    private void rotate(int times) {
-        IntStream.range(1, times).forEachOrdered(range -> {
+    private void rotateAndFwd() {
+        IntStream.range(1, 20).forEachOrdered(range -> {
             droneFlightService.turn(TurnDirection.LEFT, 18);
+            // detect color
         });
-        //detect color
+        // if color
+        droneFlightService.move(MovementDirection.FORWARD, 50);
     }
 
 }
