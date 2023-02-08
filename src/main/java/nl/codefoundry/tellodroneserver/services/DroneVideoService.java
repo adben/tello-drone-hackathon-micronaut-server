@@ -82,7 +82,8 @@ public class DroneVideoService {
         }
 
         public Flowable<Optional<BufferedImage>> getVideoStream() {
-            return videoFrameSubject.toFlowable(BackpressureStrategy.LATEST);
+            return videoFrameSubject.toFlowable(BackpressureStrategy.LATEST)
+                .map(bi -> bi.map(ImageRecognitionUtil::detectBalloon));
         }
 
         public Optional<BufferedImage> getLastVideoFrame() {
