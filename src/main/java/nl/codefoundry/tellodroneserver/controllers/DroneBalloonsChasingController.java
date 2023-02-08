@@ -9,8 +9,6 @@ import me.friwi.tello4j.api.world.TurnDirection;
 import nl.codefoundry.tellodroneserver.services.DroneFlightService;
 import nl.codefoundry.tellodroneserver.services.DroneService;
 
-import java.util.Map;
-import java.util.Timer;
 import java.util.stream.IntStream;
 
 @Controller("api/drone/chasing")
@@ -26,8 +24,7 @@ public class DroneBalloonsChasingController {
     }
 
     @Get("balloons")
-    public void balloons() throws InterruptedException {
-        Timer timer = new Timer();
+    public void balloons() {
         this.droneService.connect();
         this.droneFlightService.takeoff();
         try {
@@ -46,10 +43,6 @@ public class DroneBalloonsChasingController {
             this.droneFlightService.land();
             this.droneService.disconnect();
         }
-    }
-
-    private boolean safeland() {
-        return false;
     }
 
     private void rotate(int times) {
