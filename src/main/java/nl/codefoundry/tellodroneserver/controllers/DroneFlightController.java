@@ -6,6 +6,7 @@ import jakarta.inject.Inject;
 import me.friwi.tello4j.api.world.MovementDirection;
 import me.friwi.tello4j.api.world.TurnDirection;
 import nl.codefoundry.tellodroneserver.services.DroneFlightService;
+import nl.codefoundry.tellodroneserver.services.ImageRecognitionUtil;
 
 @Controller("api/drone/flight")
 public class DroneFlightController {
@@ -71,4 +72,23 @@ public class DroneFlightController {
         this.droneFlightService.turn(TurnDirection.RIGHT, degrees);
     }
 
+    @Get("track-red")
+    public void trackRed() {
+        ImageRecognitionUtil.TRACK_COLOR = ImageRecognitionUtil.Color.RED;
+    }
+
+    @Get("track-yellow")
+    public void trackYellow() {
+        ImageRecognitionUtil.TRACK_COLOR = ImageRecognitionUtil.Color.YELLOW;
+    }
+
+    @Get("track-green")
+    public void trackGreen() {
+        ImageRecognitionUtil.TRACK_COLOR = ImageRecognitionUtil.Color.GREEN;        
+    }
+
+    @Get("track-blue")
+    public void trackBlue() {
+        ImageRecognitionUtil.TRACK_COLOR = ImageRecognitionUtil.Color.BLUE;        
+    }
 }

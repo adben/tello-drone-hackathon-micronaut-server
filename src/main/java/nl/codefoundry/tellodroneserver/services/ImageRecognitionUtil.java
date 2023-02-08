@@ -4,12 +4,14 @@ import java.awt.image.BufferedImage;
 
 public class ImageRecognitionUtil {
 
-    enum Color {
+    public static Color TRACK_COLOR = Color.RED;
+
+    public enum Color {
         RED, YELLOW, GREEN, BLUE
     }
     
     public static BufferedImage detectBalloon(BufferedImage image) {
-        removeAllButColor(image, Color.GREEN);
+        removeAllButColor(image, TRACK_COLOR);
         return image;
     }
 
