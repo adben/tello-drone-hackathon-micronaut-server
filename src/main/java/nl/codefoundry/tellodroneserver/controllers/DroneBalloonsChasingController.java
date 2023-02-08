@@ -30,7 +30,6 @@ public class DroneBalloonsChasingController {
 
     @Get("balloons")
     public void balloons() {
-        this.droneService.connect();
         this.droneFlightService.takeoff();
         try {
             rotateAndFwd();
@@ -41,7 +40,6 @@ public class DroneBalloonsChasingController {
             this.droneFlightService.emergencyStop();
         } finally {
             this.droneFlightService.land();
-            this.droneService.disconnect();
         }
     }
 
