@@ -32,6 +32,7 @@ public class DroneBalloonsChasingController {
     public void balloons() {
         this.droneFlightService.takeoff();
         try {
+            droneFlightService.move(MovementDirection.UP, 120);
             rotateAndFwd();
             rotateAndFwd();
             //todo repeat tot klaar
