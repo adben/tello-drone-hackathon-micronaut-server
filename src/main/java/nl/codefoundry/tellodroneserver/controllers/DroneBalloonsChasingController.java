@@ -5,11 +5,15 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import jakarta.inject.Inject;
 import me.friwi.tello4j.api.world.MovementDirection;
+import me.friwi.tello4j.api.world.TurnDirection;
 import nl.codefoundry.tellodroneserver.services.DroneFlightService;
 import nl.codefoundry.tellodroneserver.services.DroneService;
 import nl.codefoundry.tellodroneserver.services.DroneVideoService;
 
 import java.io.IOException;
+import java.util.stream.IntStream;
+
+import static java.lang.Thread.sleep;
 
 @Controller("api/drone/chasing")
 public class DroneBalloonsChasingController {
@@ -38,6 +42,11 @@ public class DroneBalloonsChasingController {
         this.droneService.connect();
         this.droneFlightService.takeoff();
         this.droneFlightService.move(MovementDirection.UP, 160);
+        IntStream.range(1, 10)
+                .forEach(range -> {
+                    droneFlightService.turn(TurnDirection.LEFT, range * 3);
+                });
         this.droneFlightService.land();
+        this.droneService.disconnect();
     }
 }
