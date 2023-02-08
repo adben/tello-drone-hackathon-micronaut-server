@@ -16,13 +16,37 @@ public class ImageRecognitionUtil {
     }
 
     public static boolean isBalloonInImage(BufferedImage image) {
-        
+        int width = image.getWidth();
+        int height = image.getHeight();
+        int[] pixels = new int[width * height];
+        image.getRGB(0, 0, width, height, pixels, 0, width);
+
+        long intensity = 0;
+
+        /* Set all pixels within +- range of base RGB to black */
+        for (int i = 0; i < pixels.length; i++) {
+            int a = (pixels[i]>>24)     &0xFF; //alpha
+            int r = (pixels[i]>>16)     &0xFF; //red
+            int g = (pixels[i]>>8)      &0xFF; //green
+            int b = (pixels[i]>>0)      &0xFF; //blue
+
+            intensity = intensity + r + g + b;
+        }
+
+        return intensity > 1 * width * height;
     }
     
     public static BufferedImage removeAllButCollor(BufferedImage image) {
-        long start = System.nanoTime();
+        // long start = System.nanoTime();
         removeAllButColor(image, TRACK_COLOR);
-        LOG.info("detected balloon in {} ns", System.nanoTime() - start);
+        // LOG.info("detected balloon in {} ns", System.nanoTime() - start);
+
+        // new Thread(){
+        //     public void run() {
+        //         System.out.println("is balloon in image: " + isBalloonInImage(image));
+        //     }
+        // }.start();
+
         return image;
     }
 
